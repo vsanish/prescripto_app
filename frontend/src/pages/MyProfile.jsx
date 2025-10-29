@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
-import { assets } from "../assets/assets";
+import { assets } from "../assets/assets.js";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -50,13 +50,13 @@ const MyProfile = () => {
         isEdit
         ?<label htmlFor="image">
           <div className="inline-block relative cursor-pointer">
-            <img className="w-36 rounded opacity-75" src={image? URL.createObjectURL(image):userData.image} alt="User Profile" />
+            <img className="w-36 rounded opacity-75" src={image? URL.createObjectURL(image):(userData.image || assets.upload_area )} alt="User Profile" />
             {/* <img className="w-10 absolute bottom-12 right-12" src={image? '':assets.upload_icon }  alt="User Profile" /> */}
             {!image && assets.upload_icon && (<img className="w-10 absolute bottom-12 right-12" src={assets.upload_icon} alt="Upload Icon" /> )}
           </div>
           <input onChange={(e)=>setImage(e.target.files[0])} type="file"  id="image" hidden />
         </label>
-        :<img className="w-36 rounded" src={userData.image} alt="" />
+        :<img className="w-36 rounded" src={userData.image || assets.upload_area} alt="" />
       }
 
 

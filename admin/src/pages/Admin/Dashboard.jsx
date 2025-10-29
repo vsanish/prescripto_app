@@ -15,6 +15,16 @@ const Dashboard = () => {
     }
   }, [aToken]);
 
+
+  if (!dashData) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        Loading dashboard data...
+      </div>
+    );
+  }
+
+
   if (!dashData) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-500">

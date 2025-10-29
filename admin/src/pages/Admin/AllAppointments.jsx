@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { assets } from '../../../src/assets/assets.js'
 
-const AllApointments = () => {
+const AllAppointments = () => {
 
   const {atoken, appointments, getAllAppointments , cancelAppointment} = useContext(AdminContext)
 
@@ -16,9 +16,17 @@ const AllApointments = () => {
 
   },[atoken])
 
+  if (!appointments) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        Loading appointments data...
+      </div>
+    );
+  }
+
   return (
     <div className='w-full max-w-6xl m-5'>
-      <p className='mb-3 text-lg font-medium'>AllApointments</p>
+      <p className='mb-3 text-lg font-medium'>AllAppointments</p>
 
       <div className='bg-white border rounded text-sm max-h-[80vh] min-h-[60vh] overflow-y-scroll'>
         <div className='hidden sm:grid grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] grid-flow-col py-3 px-6 border-b'>
@@ -61,4 +69,4 @@ const AllApointments = () => {
   )
 }
 
-export default AllApointments
+export default AllAppointments
