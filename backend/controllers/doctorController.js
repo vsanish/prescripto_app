@@ -155,7 +155,7 @@ const doctorDashboard = async(req,res)=>{
 
         const dashData = {
             earnings,
-            patients:patients.length,
+            users:patients.length,
             appointments:appointments.length,
             latestAppointments:appointments.reverse().slice(0,5) 
         }

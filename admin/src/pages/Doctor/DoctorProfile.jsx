@@ -45,6 +45,16 @@ const DoctorProfile = () => {
     }
   }, [dToken]);
 
+
+  if (!profileData) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        Loading Profile data...
+      </div>
+    );
+  }
+
+
   return (
     profileData && (
       <div>

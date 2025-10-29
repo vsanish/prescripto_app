@@ -190,15 +190,13 @@
 // export default App;
 
 
-// ==========================
-// 📁 App.jsx
-// Main Application Entry Component
-// ==========================
+
+
+//This is App.jsx
 
 import React, { useContext } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -213,7 +211,7 @@ import Sidebar from './components/Sidebar';
 // Pages
 import Login from './pages/Login';
 import Dashboard from './pages/Admin/Dashboard';
-import AllAppointments from './pages/Admin/AllApointments';
+import AllAppointments from './pages/Admin/AllAppointments';
 import AddDoctor from './pages/Admin/AddDoctor';
 import DoctorList from './pages/Admin/DoctorList';
 import DoctorDashboard from './pages/Doctor/DoctorDashboard';
@@ -223,28 +221,32 @@ import DoctorProfile from './pages/Doctor/DoctorProfile';
 const App = () => {
   const { aToken } = useContext(AdminContext);
   const { dToken } = useContext(DoctorContext);
-
   const userType = localStorage.getItem('userType');
+  const location = useLocation();
 
-  //  If user is not logged in
+
+
+
+  //  If not logged in — show ONLY login page
   if (!aToken && !dToken) {
     return (
       <>
-        <Login />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
         <ToastContainer />
       </>
     );
   }
 
-  
+  // Logged-in layout (Admin / Doctor)
   return (
     <div className="bg-[#F8F9FD] min-h-screen">
       <ToastContainer />
       <Navbar />
-
       <div className="flex items-start">
         <Sidebar />
-
         <div className="flex-1 p-6">
           <Routes>
             {/* Admin Routes */}
@@ -258,9 +260,36 @@ const App = () => {
                 )
               }
             />
-            <Route path="/all-appointments" element={<AllAppointments />} />
-            <Route path="/add-doctor" element={<AddDoctor />} />
-            <Route path="/doctor-list" element={<DoctorList />} />
+            <Route
+              path="/all-appointments"
+              element={
+                aToken && userType === 'admin' ? (
+                  <AllAppointments />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/add-doctor"
+              element={
+                aToken && userType === 'admin' ? (
+                  <AddDoctor />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/doctor-list"
+              element={
+                aToken && userType === 'admin' ? (
+                  <DoctorList />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
 
             {/* Doctor Routes */}
             <Route
@@ -273,11 +302,29 @@ const App = () => {
                 )
               }
             />
-            <Route path="/doctor-appointments" element={<DoctorAppointments />} />
-            <Route path="/doctor-profile" element={<DoctorProfile />} />
+            <Route
+              path="/doctor-appointments"
+              element={
+                dToken && userType === 'doctor' ? (
+                  <DoctorAppointments />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/doctor-profile"
+              element={
+                dToken && userType === 'doctor' ? (
+                  <DoctorProfile />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
 
             {/* Default Route */}
-            <Route path="/" element={<Login />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </div>
@@ -286,3 +333,6 @@ const App = () => {
 };
 
 export default App;
+
+
+

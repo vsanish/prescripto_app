@@ -13,6 +13,13 @@ const DoctorList = () => {
     }
   },[aToken])
 
+  if (!doctors) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        Loading doctors list...
+      </div>
+    );
+  }
 
   return (
     <div className='m-5 max-h-[90vh] overflow-y-scroll'>
